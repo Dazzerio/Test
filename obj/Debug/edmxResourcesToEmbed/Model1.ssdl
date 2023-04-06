@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище EsofitModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "Esofit.dbo.Managers" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+  <EntityType Name="Managers">
+    <Key>
+      <PropertyRef Name="AnalysisCoefficient" />
+      <PropertyRef Name="DifficultyCoefficient" />
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="InstallationCoefficient" />
+      <PropertyRef Name="JuniorMinimum" />
+      <PropertyRef Name="MiddleMinimum" />
+      <PropertyRef Name="SeniorMinimum" />
+      <PropertyRef Name="SupportCoefficient" />
+      <PropertyRef Name="TimeCoefficient" />
+      <PropertyRef Name="ToMoneyCoefficient" />
+      <PropertyRef Name="Attribute_index" />
+    </Key>
+    <Property Name="AnalysisCoefficient" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DifficultyCoefficient" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="InstallationCoefficient" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="JuniorMinimum" Type="int" Nullable="false" />
+    <Property Name="MiddleMinimum" Type="int" Nullable="false" />
+    <Property Name="SeniorMinimum" Type="int" Nullable="false" />
+    <Property Name="SupportCoefficient" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="TimeCoefficient" Type="date" Nullable="false" />
+    <Property Name="ToMoneyCoefficient" Type="int" Nullable="false" />
+    <Property Name="Attribute_index" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Userss">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Пароль" Type="nvarchar" MaxLength="50" />
+    <Property Name="Имя" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Отчество" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Фамилия" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Логин" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Удален" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Задачи">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExecutorID" Type="bigint" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreateDateTime" Type="datetime" Nullable="false" />
+    <Property Name="Deadline" Type="date" Nullable="false" />
+    <Property Name="Difficulty" Type="int" Nullable="false" />
+    <Property Name="Time" Type="int" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="WorkType" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CompletedDateTime" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsDeleted" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Managers_Userss">
+    <End Role="Userss" Type="Self.Userss" Multiplicity="1" />
+    <End Role="Managers" Type="Self.Managers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Userss">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Managers">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="Хранилище EsofitModelContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Userss" EntityType="Self.Userss" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Задачи" EntityType="Self.Задачи" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Managers" EntityType="Self.Managers" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Managers].[AnalysisCoefficient] AS [AnalysisCoefficient], 
+    [Managers].[DifficultyCoefficient] AS [DifficultyCoefficient], 
+    [Managers].[ID] AS [ID], 
+    [Managers].[InstallationCoefficient] AS [InstallationCoefficient], 
+    [Managers].[JuniorMinimum] AS [JuniorMinimum], 
+    [Managers].[MiddleMinimum] AS [MiddleMinimum], 
+    [Managers].[SeniorMinimum] AS [SeniorMinimum], 
+    [Managers].[SupportCoefficient] AS [SupportCoefficient], 
+    [Managers].[TimeCoefficient] AS [TimeCoefficient], 
+    [Managers].[ToMoneyCoefficient] AS [ToMoneyCoefficient], 
+    [Managers].[Attribute_index] AS [Attribute_index]
+    FROM [dbo].[Managers] AS [Managers]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Managers_Userss" Association="Self.FK_Managers_Userss">
+      <End Role="Userss" EntitySet="Userss" />
+      <End Role="Managers" EntitySet="Managers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
